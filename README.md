@@ -23,18 +23,18 @@ Tested on **Linux Mint** (should also work on other Linux distros that use D-Bus
 - 1 Clone this repository:
 
    ```bash
-   git clone https://github.com/yourusername/notify-heartbeat.git
+   git clone https://github.com/Squary5928/notifled.git
    cd notify-heartbeat
    ```
 - 2 Make the script executable:
 
   ```bash
-  cd notify-heartbeat && chmod +x notifled.sh
+  cd notifled && chmod +x notifled.sh
   ```
 - 3 Run it:
 
   ```bash
-  ./notify-heartbeat.sh
+  ./notifled.sh
   ```
 
 Now every new desktop notification will trigger the LED heartbeat
@@ -58,19 +58,19 @@ sudo privileges to write to /sys/class/leds.
 If you want it to run automatically on login:
 
 Linux Mint (Cinnamon / XFCE /  :
-Go to Startup Applications → Add → point it to notify-heartbeat.sh.
+Go to Startup Applications → Add → point it to notifled.sh.
 
 Or copy and paste the systemd unit file that I have provided to the systemd service units folder by:
 
 ```
-cd notify-hertbeat
-cp notify-heartbeat.service ~/.config/systemd/user
+cd notifled
+cp notifled.service ~/.config/systemd/user
 ```
 
 And, if you want to activate it for all users (system-wide):
 
 ```
-sudo cp notify-heartbeat.service /etc/systemd/system/
+sudo cp notifled.service /etc/systemd/system/
 ```
 
 ---
