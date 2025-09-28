@@ -24,7 +24,7 @@ Tested on **Linux Mint** (should also work on other Linux distros that use D-Bus
 
    ```bash
    git clone https://github.com/Squary5928/notifled.git
-   cd notify-heartbeat
+   cd notifled
    ```
 - 2 Make the script executable:
 
