@@ -89,7 +89,7 @@ sudo cp notifled.service /etc/systemd/system/
 
 ## Thanks to Community Feedback
 
-Big thanks to users from [r/bash]([https://reddit.com/r/bash](https://www.reddit.com/r/bash/comments/1nsprj5/can_i_get_some_reviews_or_opinions_on_this_script/)) and [r/commandline](https://www.reddit.com/r/commandline/comments/1nsqcg9/can_i_get_some_reviews_or_opinions_on_this_script/) for their valuable feedback!  
+Big thanks to users from [r/bash](https://www.reddit.com/r/bash/comments/1nsprj5/can_i_get_some_reviews_or_opinions_on_this_script/)) and [r/commandline](https://www.reddit.com/r/commandline/comments/1nsqcg9/can_i_get_some_reviews_or_opinions_on_this_script/) for their valuable feedback!  
 Based on their suggestions, the project now includes:
 
 - ✅ ShellCheck-friendly improvements  
