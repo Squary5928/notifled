@@ -22,22 +22,34 @@ Tested on **Linux Mint** (should also work on other Linux distros that use D-Bus
 
 - 1 Clone this repository:
 
-   ```bash
+   ```
    git clone https://github.com/Squary5928/notifled.git
    cd notifled
    ```
 - 2 Make the script executable:
 
-  ```bash
+  ```
   cd notifled && chmod +x notifled.sh
   ```
 - 3 Run it:
 
-  ```bash
+  ```
   ./notifled.sh
   ```
 
-Now every new desktop notification will trigger the LED heartbeat
+### Allowing LED control without sudo (recommended)
+
+By default, writing to `/sys/class/leds/.../brightness` requires root.  
+To avoid spawning `sudo` repeatedly, you can add a **udev rule** that gives your user permission to control the Scroll Lock LED.
+You can do this by pasting this:
+
+```
+echo 'KERNEL=="input*::scrolllock", OWNER="'"$USER"'"' | sudo tee /etc/udev/rules.d/99-scrolllock.rules
+sudo udevadm control --reload-rules
+sudo udevadm trigger
+```
+
+Now every new desktop notification will trigger the LED heartbeat.
 
 ---
 
@@ -57,7 +69,7 @@ sudo privileges to write to /sys/class/leds.
 
 If you want it to run automatically on login:
 
-Linux Mint (Cinnamon / XFCE /  :
+Linux Mint (Cinnamon / XFCE / MATE):
 Go to Startup Applications → Add → point it to notifled.sh.
 
 Or copy and paste the systemd unit file that I have provided to the systemd service units folder by:
@@ -75,7 +87,19 @@ sudo cp notifled.service /etc/systemd/system/
 
 ---
 
+## Thanks to Community Feedback
 
+Big thanks to users from [r/bash]([https://reddit.com/r/bash](https://www.reddit.com/r/bash/comments/1nsprj5/can_i_get_some_reviews_or_opinions_on_this_script/)) and [r/commandline](https://www.reddit.com/r/commandline/comments/1nsqcg9/can_i_get_some_reviews_or_opinions_on_this_script/) for their valuable feedback!  
+Based on their suggestions, the project now includes:
+
+- ✅ ShellCheck-friendly improvements  
+- ✅ A lock mechanism to prevent chaotic blinking on multiple notifications  
+- ✅ Cleaner LED access (no repeated `sudo`, recommend using udev rules)  
+- ✅ Strict mode for safer scripting  
+
+Your feedback helps make this tiny tool more reliable and fun to use!
+
+---
 
 ## Contributing
 
