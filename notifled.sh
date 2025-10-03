@@ -11,30 +11,45 @@
 # Author: Squary
 # License: MIT
 
+# Enable unofficial bash strict mode (minus -u, to avoid unbound var issues with $line)
+set -euo pipefail
+IFS=$'\n\t'
+
 # Path to Scroll Lock LED device
-LED_DEVICE="/sys/class/leds/input*::scrolllock/brightness"
+declare -r LED_DEVICE="/sys/class/leds/input*::scrolllock/brightness"
+
+# Global: store PID of currently running heartbeat
+heartbeat_pid=0
 
 # Function: heartbeat blink (approx. 3 seconds total)
 heartbeat() {
     local duration=3
     local end=$((SECONDS + duration))
 
-    while [ $SECONDS -lt $end ]; do
-        echo 1 | sudo tee $LED_DEVICE >/dev/null
-        sleep 0.1
-        echo 0 | sudo tee $LED_DEVICE >/dev/null
-        sleep 0.1
-        echo 1 | sudo tee $LED_DEVICE >/dev/null
-        sleep 0.1
-        echo 0 | sudo tee $LED_DEVICE >/dev/null
-        sleep 0.7
-    done
+    while ((SECONDS < end)); do
+        for val in 1 0 1 0; do
+            echo "$val"
+            sleep 0.1
+        done
+        sleep 0.6
+    done | tee "$LED_DEVICE" > /dev/null
+}
+
+# Function: start heartbeat safely (PID lock)
+start_heartbeat() {
+    # If a heartbeat is still running, kill it
+    if (( heartbeat_pid > 0 )) && kill -0 "$heartbeat_pid" 2>/dev/null; then
+        kill "$heartbeat_pid" 2>/dev/null || true
+    fi
+
+    heartbeat &        # Start a new heartbeat in the background
+    heartbeat_pid=$!   # Save its PID
 }
 
 # Main loop: listen for notifications
 dbus-monitor "interface='org.freedesktop.Notifications'" |
 while read -r line; do
     if [[ "$line" == *"member=Notify"* ]]; then
-        heartbeat &
+        start_heartbeat
     fi
 done
